@@ -4,49 +4,76 @@ import 'package:flutter_todo_web/utils/todo_Items.dart';
 class TodoTile extends StatelessWidget {
   final TodoItem item;
   final int colorValue;
+  final VoidCallback? onDelete;
+  final bool isInTrash;
 
   const TodoTile({
     super.key,
     required this.item,
     required this.colorValue,
+    this.onDelete,
+    this.isInTrash = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final hue = (item.id.hashCode % 360).toDouble();
-    
+    final charCount = item.text.length;
+
     return Card(
-      elevation: 3,
-      color: HSLColor.fromAHSL(
-        1.0,
-        hue,
-        0.7,
-        colorValue / 255,
-      ).toColor(),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
+      color: Color.fromARGB(255, colorValue, 100, 255 - colorValue),
+      elevation: 4,
+      child: Stack(
+        children: [
+          
+          // Main content
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 24.0),
+            child: Center(
               child: Text(
                 item.text,
-                style: TextStyle(
-                  color: colorValue > 180 ? Colors.black : Colors.white,
-                  fontWeight: FontWeight.w500,
+                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 8,
+              ),
+            ),
+          ),
+          
+          // Delete button - always visible on active notes
+          if (!isInTrash && onDelete != null)
+            Positioned(
+              top: 4,
+              right: 4,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: onDelete,
+                  child: Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Icon(Icons.delete_outline, 
+                      size: 20, 
+                      color: Colors.black54,
+                    ),
+                  ),
                 ),
-                overflow: TextOverflow.fade,
               ),
             ),
-            Text(
-              '${item.text.length} chars',
+          
+          // Character count indicator
+          Positioned(
+            bottom: 4,
+            left: 8,
+            child: Text(
+              '$charCount chars',
               style: TextStyle(
-                fontSize: 10,
-                color: colorValue > 180 ? Colors.black54 : Colors.white70,
+                fontSize: 12,
+                color: Colors.black54,
+                fontWeight: FontWeight.w500,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

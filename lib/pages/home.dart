@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
-
-import 'package:flutter_todo_web/widgets/treemap_Layout.dart';
+import 'package:flutter_todo_web/widgets/custom_AppBar.dart';
+import 'package:flutter_todo_web/widgets/todo_Treemap_Layout.dart';
+import 'package:flutter_todo_web/widgets/add_ToDo.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,7 +13,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<TodoItem> _items = [];
+  final List<TodoItem> _trashedItems = [];
   final TextEditingController _textController = TextEditingController();
+  bool _showTrash = false;
 
   @override
   void dispose() {
@@ -20,60 +23,52 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
-  void _addTodoItem() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add New Todo'),
-        content: TextField(
-          controller: _textController,
-          decoration: const InputDecoration(hintText: 'Enter notes here'),
-          maxLines: 3,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              if (_textController.text.isNotEmpty) {
-                setState(() {
-                  _items.add(TodoItem(
-                    id: DateTime.now().millisecondsSinceEpoch.toString(),
-                    text: _textController.text,
-                  ));
-                  _textController.clear();
-                });
-                Navigator.pop(context);
-              }
-            },
-            child: const Text('Add'),
-          ),
-        ],
-      ),
-    );
+  void _handleItemAdded(TodoItem newItem) {
+    setState(() {
+      _items.add(newItem);
+    });
+  }
+
+  void _handleItemDeleted(TodoItem item) {
+    setState(() {
+      _items.remove(item);
+      _trashedItems.add(item);
+    });
+  }
+  
+  void _toggleTrashView() {
+    setState(() {
+      _showTrash = !_showTrash;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final currentItems = _showTrash ? _trashedItems : _items;
+    
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notes TreeMap'),
-        backgroundColor: Color(0xffcdb4db),
+      appBar: CustomAppBar(
+        isTrashView: _showTrash,
+        onToggleView: _toggleTrashView,
       ),
-      body: _items.isEmpty
-          ? const Center(
+      backgroundColor: Color(0xffb8d0eb),
+      body: currentItems.isEmpty
+          ? Center(
               child: Text(
-                'No notes yet. Add one with the + button!',
+                _showTrash 
+                    ? 'No items in trash.'
+                    : 'No notes yet. Add one with the + button!',
                 style: TextStyle(fontSize: 18),
               ),
             )
-          : TreemapLayout(items: _items),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addTodoItem,
-        backgroundColor: Color(0xffcdb4db),
-        child: const Icon(Icons.add),
+          : TodoTreemapLayout(
+              items: currentItems,
+              onDelete: _showTrash ? null : _handleItemDeleted,
+              isTrashView: _showTrash,
+            ),
+      floatingActionButton: _showTrash ? null : AddTodo(
+        textController: _textController,
+        onItemAdded: _handleItemAdded,
       ),
     );
   }

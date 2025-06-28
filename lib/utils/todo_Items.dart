@@ -3,9 +3,5 @@ class TodoItem {
   final String text;
   final bool isCompleted;
 
-  TodoItem({
-    required this.id,
-    required this.text,
-    this.isCompleted = false,
-  });
+  TodoItem({required this.id, required this.text, this.isCompleted = false});
 }
