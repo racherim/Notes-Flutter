@@ -18,7 +18,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(isTrashView ? 'Trash' : 'Notes'),
       backgroundColor: Color(0xffa663cc),
-      shadowColor: Colors.black,
+      elevation: 8.0,
+      shadowColor: Colors.black.withValues(alpha: 0.8),
+      surfaceTintColor: Colors.transparent,
+      scrolledUnderElevation: 0,
       leading: isTrashView ? IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: onToggleView,
