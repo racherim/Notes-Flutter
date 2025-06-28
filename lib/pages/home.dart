@@ -14,12 +14,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final List<TodoItem> _items = [];
   final List<TodoItem> _trashedItems = [];
-  final TextEditingController _textController = TextEditingController();
   bool _showTrash = false;
 
   @override
   void dispose() {
-    _textController.dispose();
+    // No need to dispose of _textController anymore
     super.dispose();
   }
 
@@ -67,7 +66,6 @@ class _HomeState extends State<Home> {
               isTrashView: _showTrash,
             ),
       floatingActionButton: _showTrash ? null : AddTodo(
-        textController: _textController,
         onItemAdded: _handleItemAdded,
       ),
     );

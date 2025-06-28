@@ -1,26 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
 
-class AddTodo extends StatelessWidget {
-  final TextEditingController textController;
+class AddTodo extends StatefulWidget {
   final Function(TodoItem) onItemAdded;
 
   const AddTodo({
     super.key,
-    required this.textController,
     required this.onItemAdded,
   });
+
+  @override
+  State<AddTodo> createState() => _AddTodoState();
+}
+
+class _AddTodoState extends State<AddTodo> {
+  // Create separate controllers for title and content
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up controllers when the widget is disposed
+    _titleController.dispose();
+    _contentController.dispose();
+    super.dispose();
+  }
 
   void _addTodoItem(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Add New Todo'),
-        content: TextField(
-          controller: textController,
-          decoration: const InputDecoration(hintText: 'Enter notes here'),
-          maxLines: 3,
+        title: const Text('Add New Note'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(hintText: 'Title'),
+              maxLines: 1,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _contentController,
+              decoration: const InputDecoration(hintText: 'Enter notes here'),
+              maxLines: 3,
+            ),
+          ],
         ),
+        
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -28,14 +55,16 @@ class AddTodo extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              if (textController.text.isNotEmpty) {
-                onItemAdded(
+              if (_titleController.text.isNotEmpty || _contentController.text.isNotEmpty) {
+                widget.onItemAdded(
                   TodoItem(
                     id: DateTime.now().millisecondsSinceEpoch.toString(),
-                    text: textController.text,
+                    title: _titleController.text,
+                    text: _contentController.text,
                   ),
                 );
-                textController.clear();
+                _titleController.clear();
+                _contentController.clear();
                 Navigator.pop(context);
               }
             },

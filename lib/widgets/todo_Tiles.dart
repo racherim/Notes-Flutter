@@ -29,12 +29,27 @@ class TodoTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 24.0),
             child: Center(
-              child: Text(
-                item.text,
-                style: const TextStyle(fontSize: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  
+                  //Note Title
+                  Text(
+                item.title,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 8,
+              ),
+                  //Main Note Text Content
+                  Text(
+                    item.text,
+                    style: const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 8,
+              ),
+                ],
               ),
             ),
           ),
