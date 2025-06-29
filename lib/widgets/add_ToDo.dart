@@ -4,10 +4,7 @@ import 'package:flutter_todo_web/utils/todo_Items.dart';
 class AddTodo extends StatefulWidget {
   final Function(TodoItem) onItemAdded;
 
-  const AddTodo({
-    super.key,
-    required this.onItemAdded,
-  });
+  const AddTodo({super.key, required this.onItemAdded});
 
   @override
   State<AddTodo> createState() => _AddTodoState();
@@ -47,7 +44,7 @@ class _AddTodoState extends State<AddTodo> {
             ),
           ],
         ),
-        
+
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -55,7 +52,8 @@ class _AddTodoState extends State<AddTodo> {
           ),
           TextButton(
             onPressed: () {
-              if (_titleController.text.isNotEmpty || _contentController.text.isNotEmpty) {
+              if (_titleController.text.isNotEmpty ||
+                  _contentController.text.isNotEmpty) {
                 widget.onItemAdded(
                   TodoItem(
                     id: DateTime.now().millisecondsSinceEpoch.toString(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/pages/home.dart';
 import 'package:flutter_todo_web/pages/login_signup.dart';
+import 'package:flutter_todo_web/utils/PageStyle.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Notes App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffa663cc)),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: PageStyle().secondaryColor,
+        ),
       ),
       home: const LoginSignupPage(),
       debugShowCheckedModeBanner: false,

@@ -24,7 +24,6 @@ class TodoTile extends StatelessWidget {
       elevation: 4,
       child: Stack(
         children: [
-          
           // Main content
           Padding(
             padding: const EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 24.0),
@@ -32,15 +31,17 @@ class TodoTile extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  
                   //Note Title
                   Text(
-                item.title,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 8,
-              ),
+                    item.title,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 8,
+                  ),
                   //Main Note Text Content
                   Text(
                     item.text,
@@ -48,12 +49,12 @@ class TodoTile extends StatelessWidget {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 8,
-              ),
+                  ),
                 ],
               ),
             ),
           ),
-          
+
           // Delete button - always visible on active notes
           if (!isInTrash && onDelete != null)
             Positioned(
@@ -66,15 +67,16 @@ class TodoTile extends StatelessWidget {
                   onTap: onDelete,
                   child: Padding(
                     padding: EdgeInsets.all(4.0),
-                    child: Icon(Icons.delete_outline, 
-                      size: 20, 
+                    child: Icon(
+                      Icons.delete_outline,
+                      size: 20,
                       color: Colors.black54,
                     ),
                   ),
                 ),
               ),
             ),
-          
+
           // Character count indicator
           Positioned(
             bottom: 4,

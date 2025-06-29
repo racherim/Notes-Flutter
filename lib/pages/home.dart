@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
       _trashedItems.add(item);
     });
   }
-  
+
   void _toggleTrashView() {
     setState(() {
       _showTrash = !_showTrash;
@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final currentItems = _showTrash ? _trashedItems : _items;
-    
+
     return Scaffold(
       appBar: CustomAppBar(
         isTrashView: _showTrash,
@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
       body: currentItems.isEmpty
           ? Center(
               child: Text(
-                _showTrash 
+                _showTrash
                     ? 'No items in trash.'
                     : 'No notes yet. Add one with the + button!',
                 style: TextStyle(fontSize: 18),
@@ -65,9 +65,9 @@ class _HomeState extends State<Home> {
               onDelete: _showTrash ? null : _handleItemDeleted,
               isTrashView: _showTrash,
             ),
-      floatingActionButton: _showTrash ? null : AddTodo(
-        onItemAdded: _handleItemAdded,
-      ),
+      floatingActionButton: _showTrash
+          ? null
+          : AddTodo(onItemAdded: _handleItemAdded),
     );
   }
 }

@@ -9,7 +9,7 @@ class TodoTreemapLayout extends StatelessWidget {
   final bool isTrashView;
 
   const TodoTreemapLayout({
-    super.key, 
+    super.key,
     required this.items,
     this.onDelete,
     this.isTrashView = false,
@@ -41,9 +41,9 @@ class TodoTreemapLayout extends StatelessWidget {
           final aspectRatio = constraints.maxWidth / constraints.maxHeight;
           cols = math.min(5, math.sqrt(items.length * aspectRatio).ceil());
         }
-        
+
         int rows = (items.length / cols).ceil();
-        
+
         // Adjust tile aspect ratio based on screen size
         double childAspectRatio;
         if (screenWidth < 600) {
@@ -69,7 +69,7 @@ class TodoTreemapLayout extends StatelessWidget {
                 (155 * (item.text.length / sortedItems[0].text.length)).toInt();
 
             return TodoTile(
-              item: item, 
+              item: item,
               colorValue: colorValue,
               onDelete: onDelete != null ? () => onDelete!(item) : null,
               isInTrash: isTrashView,

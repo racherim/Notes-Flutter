@@ -5,7 +5,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onToggleView;
 
   const CustomAppBar({
-    super.key, 
+    super.key,
     this.isTrashView = false,
     required this.onToggleView,
   });
@@ -22,11 +22,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       shadowColor: Colors.black.withValues(alpha: 0.8),
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0,
-      leading: isTrashView ? IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: onToggleView,
-        tooltip: 'Back to Notes',
-      ) : null,
+      leading: isTrashView
+          ? IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: onToggleView,
+              tooltip: 'Back to Notes',
+            )
+          : null,
       actions: [
         IconButton(
           onPressed: onToggleView,
