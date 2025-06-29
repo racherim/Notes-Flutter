@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_web/widgets/login_widget.dart';
+import 'package:flutter_todo_web/widgets/signup_widget.dart';
 
-class LoginSignupPage extends StatefulWidget {
+class LoginSignupPage extends StatelessWidget {
   const LoginSignupPage({super.key});
 
   @override
-  State<LoginSignupPage> createState() => _LoginSignupPageState();
-}
-
-class _LoginSignupPageState extends State<LoginSignupPage> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SignUpWidget();
   }
 }

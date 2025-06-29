@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/pages/home.dart';
+import 'package:flutter_todo_web/pages/login_signup.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffa663cc)),
       ),
-      home: const Home(),
+      home: const LoginSignupPage(),
       debugShowCheckedModeBanner: false,
     );
   }
