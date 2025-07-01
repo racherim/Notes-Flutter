@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/pages/login_signup.dart';
-import 'package:flutter_todo_web/utils/PageStyle.dart';
+import 'package:flutter_todo_web/utils/pagestyle.dart';
 
-class LoginWidget extends StatelessWidget {
-  const LoginWidget({super.key});
+class ResetpasswordWidget extends StatelessWidget {
+  const ResetpasswordWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class LoginWidget extends StatelessWidget {
               children: [
                 const SizedBox(height: 40),
                 const Text(
-                  'Hello Again!',
+                  'Recover Account',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -44,14 +44,14 @@ class LoginWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Welcome back you\'ve been missed!',
+                  'Forgot your email and password?',
                   style: TextStyle(fontSize: 14, color: Color(0xFF666666)),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
                 TextFormField(
                   decoration: InputDecoration(
-                    hintText: 'Enter username',
+                    hintText: 'Email Address',
                     filled: true,
                     fillColor: PageStyle().textfieldColor,
                     border: OutlineInputBorder(
@@ -65,37 +65,6 @@ class LoginWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    filled: true,
-                    fillColor: PageStyle().textfieldColor,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                      horizontal: 16,
-                    ),
-                    suffixIcon: const Icon(Icons.visibility_off),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      RecoverpasswordEvent().dispatch(context);
-                    },
-                    child: const Text(
-                      'Recovery Password',
-                      style: TextStyle(color: Color(0xFF666666), fontSize: 12),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -106,9 +75,10 @@ class LoginWidget extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      shadowColor: Colors.grey.withValues(alpha: 0.5),
                     ),
                     child: const Text(
-                      'Sign In',
+                      'Send Recovery Email',
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: 16,
@@ -118,34 +88,18 @@ class LoginWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                const Text(
-                  'Or continue with',
-                  style: TextStyle(color: Color(0xFF888888), fontSize: 12),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _socialLoginButton('Google', Icons.g_mobiledata),
-                    const SizedBox(width: 16),
-                    _socialLoginButton('Apple', Icons.apple),
-                    const SizedBox(width: 16),
-                    _socialLoginButton('Facebook', Icons.facebook),
-                  ],
-                ),
-                const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Not a member? ',
+                      'Ready to log in? ',
                       style: TextStyle(color: Color(0xFF666666), fontSize: 12),
                     ),
                     TextButton(
                       onPressed: () {
-                        RegisterNowEvent().dispatch(
+                        LoginNowEvent().dispatch(
                           context,
-                        ); // Dispatch notification
+                        );
                       },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
@@ -153,7 +107,7 @@ class LoginWidget extends StatelessWidget {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       child: const Text(
-                        'Register now',
+                        'Go back',
                         style: TextStyle(color: Colors.blue, fontSize: 12),
                       ),
                     ),
@@ -164,19 +118,6 @@ class LoginWidget extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _socialLoginButton(String platform, IconData icon) {
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: PageStyle().buttonColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(),
-      ),
-      child: Icon(icon, color: Colors.black54),
     );
   }
 }

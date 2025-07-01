@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_web/utils/pagestyle.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isTrashView;
@@ -17,7 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(isTrashView ? 'Trash' : 'Notes'),
-      backgroundColor: Color(0xffa663cc),
+      backgroundColor: PageStyle().mainColor,
       elevation: 8.0,
       shadowColor: Colors.black.withValues(alpha: 0.8),
       surfaceTintColor: Colors.transparent,
@@ -34,8 +35,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: onToggleView,
           icon: Icon(isTrashView ? Icons.note : Icons.delete),
           tooltip: isTrashView ? 'View Notes' : 'View Trash',
-          color: Colors.white,
+          color: PageStyle().buttonColor
         ),
+        SizedBox(width: 10),
+        IconButton(
+          onPressed: (){}, 
+          icon: Icon(Icons.account_circle),
+          color: PageStyle().buttonColor
+          )
       ],
     );
   }

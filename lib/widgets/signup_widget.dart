@@ -1,9 +1,34 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/pages/login_signup.dart';
+import 'package:flutter_todo_web/services/auth_services.dart';
 import 'package:flutter_todo_web/utils/PageStyle.dart';
 
-class SignUpWidget extends StatelessWidget {
+class SignUpWidget extends StatefulWidget {
   const SignUpWidget({super.key});
+
+  @override
+  State<SignUpWidget> createState() => _SignUpWidgetState();
+}
+
+class _SignUpWidgetState extends State<SignUpWidget>{
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +75,7 @@ class SignUpWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 TextFormField(
+                  controller: usernameController,
                   decoration: InputDecoration(
                     hintText: 'Enter username',
                     filled: true,
@@ -66,7 +92,7 @@ class SignUpWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  obscureText: true,
+                  controller: emailController,
                   decoration: InputDecoration(
                     hintText: 'Email address',
                     filled: true,
@@ -83,7 +109,8 @@ class SignUpWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
+                  controller: passwordController,
                   decoration: InputDecoration(
                     hintText: 'Password',
                     filled: true,
@@ -96,12 +123,22 @@ class SignUpWidget extends StatelessWidget {
                       vertical: 16,
                       horizontal: 16,
                     ),
-                    suffixIcon: const Icon(Icons.visibility_off),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  obscureText: true,
+                  obscureText: !_confirmPasswordVisible,
+                  controller: confirmPasswordController,
                   decoration: InputDecoration(
                     hintText: 'Confirm Password',
                     filled: true,
@@ -114,7 +151,16 @@ class SignUpWidget extends StatelessWidget {
                       vertical: 16,
                       horizontal: 16,
                     ),
-                    suffixIcon: const Icon(Icons.visibility_off),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _confirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _confirmPasswordVisible = !_confirmPasswordVisible;
+                        });
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -122,7 +168,7 @@ class SignUpWidget extends StatelessWidget {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: register, // Call the register method
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PageStyle().buttonColor,
                       shape: RoundedRectangleBorder(
@@ -131,7 +177,7 @@ class SignUpWidget extends StatelessWidget {
                       shadowColor: Colors.grey.withValues(alpha: 0.5),
                     ),
                     child: const Text(
-                      'Sign In',
+                      'Sign Up', // Changed from "Sign In" to "Sign Up"
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: 16,
@@ -173,4 +219,54 @@ class SignUpWidget extends StatelessWidget {
       ),
     );
   }
+
+    void register() async {
+    final username = usernameController.text;
+    final email = emailController.text;
+    final password = passwordController.text;
+    final confirmPassword = confirmPasswordController.text;
+  
+    // Store context for later use
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    
+    if (password != confirmPassword) {
+      // Show error message for password mismatch
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Passwords do not match'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    
+    if (username.isEmpty || email.isEmpty || password.isEmpty) {
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in all fields'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    
+    try {
+      await authService.value.createAccount(email: email, password: password);
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Account created successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text('Registration failed: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 }
+
+

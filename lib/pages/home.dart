@@ -44,7 +44,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final currentItems = _showTrash ? _trashedItems : _items;
-
     return Scaffold(
       appBar: CustomAppBar(
         isTrashView: _showTrash,
