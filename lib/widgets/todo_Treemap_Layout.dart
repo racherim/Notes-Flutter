@@ -23,11 +23,6 @@ class TodoTreemapLayout extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final totalChars = items.fold<int>(
-          0,
-          (sum, item) => sum + item.text.length,
-        );
-
         final screenWidth = constraints.maxWidth;
         int cols;
         if (screenWidth < 600) {
@@ -41,8 +36,6 @@ class TodoTreemapLayout extends StatelessWidget {
           final aspectRatio = constraints.maxWidth / constraints.maxHeight;
           cols = math.min(5, math.sqrt(items.length * aspectRatio).ceil());
         }
-
-        int rows = (items.length / cols).ceil();
 
         // Adjust tile aspect ratio based on screen size
         double childAspectRatio;
@@ -63,7 +56,6 @@ class TodoTreemapLayout extends StatelessWidget {
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = sortedItems[index];
-            final itemSize = item.text.length / totalChars;
             final colorValue =
                 100 +
                 (155 * (item.text.length / sortedItems[0].text.length)).toInt();
