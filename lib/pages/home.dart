@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_web/utils/pagestyle.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
 import 'package:flutter_todo_web/widgets/custom_AppBar.dart';
 import 'package:flutter_todo_web/widgets/todo_Treemap_Layout.dart';
@@ -49,7 +50,7 @@ class _HomeState extends State<Home> {
         isTrashView: _showTrash,
         onToggleView: _toggleTrashView,
       ),
-      backgroundColor: Color(0xffb8d0eb),
+      backgroundColor: PageStyle().backgroundColor,
       body: currentItems.isEmpty
           ? Center(
               child: Text(

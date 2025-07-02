@@ -97,9 +97,7 @@ class ResetpasswordWidget extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        LoginNowEvent().dispatch(
-                          context,
-                        );
+                        LoginNowEvent().dispatch(context);
                       },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,

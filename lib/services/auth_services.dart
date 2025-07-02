@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 ValueNotifier<AuthServices> authService = ValueNotifier(AuthServices());
 
 class AuthServices {
@@ -13,7 +12,7 @@ class AuthServices {
 
   Future<UserCredential> signIn({
     required String email,
-    required String password
+    required String password,
   }) async {
     return await firebaseAuth.signInWithEmailAndPassword(
       email: email,
@@ -23,7 +22,7 @@ class AuthServices {
 
   Future<UserCredential> createAccount({
     required String email,
-    required String password
+    required String password,
   }) async {
     return await firebaseAuth.createUserWithEmailAndPassword(
       email: email,
@@ -35,17 +34,11 @@ class AuthServices {
     await firebaseAuth.signOut();
   }
 
-  Future<void> resetPassword({
-    required String email,
-  }) async {
-    await firebaseAuth.sendPasswordResetEmail(
-      email: email,
-    );
+  Future<void> resetPassword({required String email}) async {
+    await firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
-  Future<void> updateUsername({
-    required String username,
-  }) async {
+  Future<void> updateUsername({required String username}) async {
     await currentUser!.updateDisplayName(username);
   }
 
@@ -53,7 +46,10 @@ class AuthServices {
     required String email,
     required String password,
   }) async {
-    AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+    AuthCredential credential = EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    );
     await currentUser!.reauthenticateWithCredential(credential);
     await currentUser!.delete();
     await firebaseAuth.signOut();

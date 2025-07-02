@@ -40,14 +40,15 @@ class _LoginSignupPageState extends State<LoginSignupPage>
 
   void switchView(int newView) {
     if (currentView == newView) return;
-    
+
     // Always animate when switching between views
     if (_animation.value > 0.5) {
       // If we're currently showing back side, first reset to front
       _controller.reverse().then((_) {
         setState(() {
           currentView = newView;
-          if (newView != 0) { // If not going to login view, animate forward
+          if (newView != 0) {
+            // If not going to login view, animate forward
             _controller.forward();
           }
         });
@@ -55,7 +56,8 @@ class _LoginSignupPageState extends State<LoginSignupPage>
     } else {
       setState(() {
         currentView = newView;
-        if (newView != 0) { // If not going to login view, animate forward
+        if (newView != 0) {
+          // If not going to login view, animate forward
           _controller.forward();
         }
       });
@@ -65,7 +67,7 @@ class _LoginSignupPageState extends State<LoginSignupPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(onToggleView: () {}),
+      appBar: CustomAppBar(appBarType: AppBarType.login, onToggleView: () {}),
       backgroundColor: PageStyle().backgroundColor,
       body: Center(
         child: AnimatedBuilder(
@@ -151,7 +153,7 @@ class SignupPage extends StatelessWidget {
   }
 }
 
-class ResetPasswordPage extends StatelessWidget{
+class ResetPasswordPage extends StatelessWidget {
   final Function toggleView;
 
   const ResetPasswordPage({super.key, required this.toggleView});

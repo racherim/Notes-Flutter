@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_web/utils/PageStyle.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
 
 class AddTodo extends StatefulWidget {
@@ -77,7 +78,7 @@ class _AddTodoState extends State<AddTodo> {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => _addTodoItem(context),
-      backgroundColor: Color(0xffa663cc),
+      backgroundColor: PageStyle().secondaryColor,
       child: const Icon(Icons.add),
     );
   }

@@ -11,12 +11,12 @@ class SignUpWidget extends StatefulWidget {
   State<SignUpWidget> createState() => _SignUpWidgetState();
 }
 
-class _SignUpWidgetState extends State<SignUpWidget>{
-
+class _SignUpWidgetState extends State<SignUpWidget> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   bool _passwordVisible = false;
   bool _confirmPasswordVisible = false;
@@ -125,7 +125,9 @@ class _SignUpWidgetState extends State<SignUpWidget>{
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
                       onPressed: () {
                         setState(() {
@@ -153,7 +155,9 @@ class _SignUpWidgetState extends State<SignUpWidget>{
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _confirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                        _confirmPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
                       onPressed: () {
                         setState(() {
@@ -220,15 +224,15 @@ class _SignUpWidgetState extends State<SignUpWidget>{
     );
   }
 
-    void register() async {
+  void register() async {
     final username = usernameController.text;
     final email = emailController.text;
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
-  
+
     // Store context for later use
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    
+
     if (password != confirmPassword) {
       // Show error message for password mismatch
       scaffoldMessenger.showSnackBar(
@@ -239,7 +243,7 @@ class _SignUpWidgetState extends State<SignUpWidget>{
       );
       return;
     }
-    
+
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
       scaffoldMessenger.showSnackBar(
         const SnackBar(
@@ -249,7 +253,7 @@ class _SignUpWidgetState extends State<SignUpWidget>{
       );
       return;
     }
-    
+
     try {
       await authService.value.createAccount(email: email, password: password);
       scaffoldMessenger.showSnackBar(
@@ -268,5 +272,3 @@ class _SignUpWidgetState extends State<SignUpWidget>{
     }
   }
 }
-
-
