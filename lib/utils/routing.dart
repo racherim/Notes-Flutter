@@ -4,8 +4,7 @@ import 'package:flutter_todo_web/pages/profile_page.dart';
 import 'package:flutter_todo_web/pages/login_signup.dart';
 
 class AppRouter {
-  static const String home = '/';
-  static const String trash = '/trash';
+  static const String home = '/home';
   static const String profile = '/profile';
   static const String login = '/login';
 

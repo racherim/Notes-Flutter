@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/services/auth_services.dart';
 import 'package:flutter_todo_web/utils/pagestyle.dart';
+import 'package:flutter_todo_web/utils/routing.dart';
 import 'package:flutter_todo_web/widgets/custom_AppBar.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -14,15 +15,23 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    void logout() {
+
+      void logout() {
       final scaffoldMessenger = ScaffoldMessenger.of(context);
       try {
         authService.value.signOut();
-        SnackBar(
-          content: Text('Logout Successful'),
-          backgroundColor: Colors.greenAccent,
-          duration: Duration(seconds: 2),
+        scaffoldMessenger.showSnackBar(
+          const SnackBar(
+            content: Text('Logout Successful'),
+            backgroundColor: Colors.greenAccent,
+            duration: Duration(seconds: 2),
+          ),
         );
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (mounted) {
+            Navigator.of(context).pushReplacementNamed(AppRouter.login);
+          }
+        });
       } on FirebaseAuthException catch (e) {
         scaffoldMessenger.showSnackBar(
           SnackBar(
@@ -36,7 +45,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: CustomAppBar(onToggleView: () {}),
+      appBar: CustomAppBar(appBarType: AppBarType.profile, onToggleView: () {},),
+      backgroundColor: PageStyle().backgroundColor,
       body: Center(
         child: Container(
           constraints: BoxConstraints(maxHeight: screenSize.height * 0.9),
@@ -247,8 +257,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                logout();
                                 Navigator.pop(context);
+                                logout();
                               },
                               child: const Text(
                                 'Logout',

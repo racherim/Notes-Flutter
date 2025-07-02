@@ -28,7 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       shadowColor: Colors.black.withValues(alpha: 0.8),
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0,
-      automaticallyImplyLeading: false, // Prevents automatic back button
+      automaticallyImplyLeading: false,
       actions: _buildActions(context),
     );
   }
@@ -49,42 +49,50 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   List<Widget> _buildActions(BuildContext context) {
     final List<Widget> actions = [];
 
-    // Only show trash/notes toggle on notes or trash pages
-    if (appBarType == AppBarType.notes || appBarType == AppBarType.trash) {
-      actions.add(
-        IconButton(
-          onPressed: onToggleView,
-          icon: Icon(isTrashView ? Icons.note : Icons.delete),
-          tooltip: isTrashView ? 'View Notes' : 'View Trash',
-          color: PageStyle().buttonColor,
-        ),
-      );
-
-      // Only show profile icon on notes/trash pages
-      actions.add(const SizedBox(width: 10));
-      actions.add(
-        IconButton(
-          onPressed: () {
-            Navigator.pushNamed(context, AppRouter.profile);
-          },
-          icon: const Icon(Icons.account_circle),
-          color: PageStyle().buttonColor,
-        ),
-      );
-    }
-
-    // Add logout button on profile page
-    if (appBarType == AppBarType.profile) {
-      actions.add(
-        IconButton(
-          onPressed: () {
-            // Implement logout functionality here
-            Navigator.pushReplacementNamed(context, AppRouter.login);
-          },
-          icon: const Icon(Icons.logout),
-          color: PageStyle().buttonColor,
-        ),
-      );
+    switch (appBarType) {
+      case AppBarType.notes:
+      case AppBarType.trash:
+        actions.add(
+          IconButton(
+            onPressed: onToggleView,
+            icon: Icon(isTrashView ? Icons.note : Icons.delete),
+            tooltip: isTrashView ? 'View Notes' : 'View Trash',
+            color: PageStyle().buttonColor,
+          ),
+        );
+        actions.add(const SizedBox(width: 10));
+        actions.add(
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRouter.profile);
+            },
+            icon: const Icon(Icons.account_circle),
+            tooltip: 'View Profile',
+            color: PageStyle().buttonColor,
+          ),
+        );
+        break;
+        
+      case AppBarType.profile:
+        actions.add(
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context, 
+                AppRouter.home, 
+                (route) => false
+              );
+            },
+            icon: const Icon(Icons.home),
+            tooltip: 'Go to Notes',
+            color: PageStyle().buttonColor,
+          ),
+        );
+        break;
+        
+      case AppBarType.login:
+        // No actions on login page
+        break;
     }
 
     return actions;
