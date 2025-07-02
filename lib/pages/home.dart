@@ -19,7 +19,6 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    // No need to dispose of _textController anymore
     super.dispose();
   }
 
