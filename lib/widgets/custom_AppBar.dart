@@ -72,15 +72,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         );
         break;
-        
+
       case AppBarType.profile:
         actions.add(
           IconButton(
             onPressed: () {
               Navigator.pushNamedAndRemoveUntil(
-                context, 
-                AppRouter.home, 
-                (route) => false
+                context,
+                AppRouter.home,
+                (route) => false,
               );
             },
             icon: const Icon(Icons.home),
@@ -89,7 +89,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         );
         break;
-        
+
       case AppBarType.login:
         // No actions on login page
         break;

@@ -42,6 +42,19 @@ class AuthServices {
     await currentUser!.updateDisplayName(username);
   }
 
+  Future<void> updatePasswordFromCurrentPassword({
+    required String currentPassword,
+    required String newPassword,
+    required String email,
+  }) async {
+    AuthCredential credential = EmailAuthProvider.credential(
+      email: email,
+      password: currentPassword,
+    );
+    await currentUser!.reauthenticateWithCredential(credential);
+    await currentUser!.updatePassword(newPassword);
+  }
+
   Future<void> deleteAccount({
     required String email,
     required String password,

@@ -30,6 +30,54 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     super.dispose();
   }
 
+  void register() async {
+    final username = usernameController.text;
+    final email = emailController.text;
+    final password = passwordController.text;
+    final confirmPassword = confirmPasswordController.text;
+
+    // Store context for later use
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+    if (password != confirmPassword) {
+      // Show error message for password mismatch
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Passwords do not match'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (username.isEmpty || email.isEmpty || password.isEmpty) {
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in all fields'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    try {
+      await authService.value.createAccount(email: email, password: password);
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Account created successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text('Registration failed: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -222,53 +270,5 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         ),
       ),
     );
-  }
-
-  void register() async {
-    final username = usernameController.text;
-    final email = emailController.text;
-    final password = passwordController.text;
-    final confirmPassword = confirmPasswordController.text;
-
-    // Store context for later use
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-
-    if (password != confirmPassword) {
-      // Show error message for password mismatch
-      scaffoldMessenger.showSnackBar(
-        const SnackBar(
-          content: Text('Passwords do not match'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    if (username.isEmpty || email.isEmpty || password.isEmpty) {
-      scaffoldMessenger.showSnackBar(
-        const SnackBar(
-          content: Text('Please fill in all fields'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    try {
-      await authService.value.createAccount(email: email, password: password);
-      scaffoldMessenger.showSnackBar(
-        const SnackBar(
-          content: Text('Account created successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      scaffoldMessenger.showSnackBar(
-        SnackBar(
-          content: Text('Registration failed: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
   }
 }

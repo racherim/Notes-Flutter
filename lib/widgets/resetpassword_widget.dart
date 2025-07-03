@@ -16,12 +16,12 @@ class _ResetpasswordWidgetState extends State<ResetpasswordWidget> {
   final formKey = GlobalKey<FormState>();
 
   @override
-  void dispose(){
+  void dispose() {
     controllerEmail.dispose();
     super.dispose();
   }
 
-  void resetPassword() async{
+  void resetPassword() async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
       await authService.value.resetPassword(email: controllerEmail.text);
@@ -30,17 +30,17 @@ class _ResetpasswordWidgetState extends State<ResetpasswordWidget> {
           content: Text('Recovery Email Has Sent'),
           backgroundColor: Colors.greenAccent,
           duration: Duration(seconds: 5),
-          )
+        ),
       );
-    }on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text(e.message ?? 'An error occured'),
-        backgroundColor: Colors.redAccent,
-        duration: Duration(seconds: 5),
-        )
+        SnackBar(
+          content: Text(e.message ?? 'An error occured'),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 5),
+        ),
       );
     }
-    
   }
 
   @override
@@ -103,10 +103,10 @@ class _ResetpasswordWidgetState extends State<ResetpasswordWidget> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty){
+                    if (value == null || value.isEmpty) {
                       return 'Please enter your email address';
                     }
-                    if (!value.contains('@') || value.contains('.')){
+                    if (!value.contains('@') || value.contains('.')) {
                       return 'Please enter a valid email address';
                     }
                     return null;

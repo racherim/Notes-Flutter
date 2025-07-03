@@ -27,12 +27,13 @@ class AuthGuard extends NavigatorObserver {
   void _checkAuthentication(Route<dynamic> route) {
     final routeName = route.settings.name;
     if (routeName == AppRouter.login) return;
-    
+
     // Check if user is authenticated for protected routes
     if ((routeName == AppRouter.home || routeName == AppRouter.profile) &&
         authService.value.currentUser == null) {
-      Navigator.of(route.navigator!.context)
-          .pushReplacementNamed(AppRouter.login);
+      Navigator.of(
+        route.navigator!.context,
+      ).pushReplacementNamed(AppRouter.login);
     }
   }
 }
@@ -50,7 +51,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       navigatorObservers: [AuthGuard()],
-      initialRoute: authService.value.currentUser != null ? AppRouter.home : AppRouter.login,
+      initialRoute: authService.value.currentUser != null
+          ? AppRouter.home
+          : AppRouter.login,
       routes: AppRouter.getRoutes(),
       debugShowCheckedModeBanner: false,
     );
