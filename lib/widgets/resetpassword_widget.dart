@@ -1,9 +1,47 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/pages/login_signup.dart';
+import 'package:flutter_todo_web/services/auth_services.dart';
 import 'package:flutter_todo_web/utils/pagestyle.dart';
 
-class ResetpasswordWidget extends StatelessWidget {
+class ResetpasswordWidget extends StatefulWidget {
   const ResetpasswordWidget({super.key});
+
+  @override
+  State<ResetpasswordWidget> createState() => _ResetpasswordWidgetState();
+}
+
+class _ResetpasswordWidgetState extends State<ResetpasswordWidget> {
+  TextEditingController controllerEmail = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose(){
+    controllerEmail.dispose();
+    super.dispose();
+  }
+
+  void resetPassword() async{
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    try {
+      await authService.value.resetPassword(email: controllerEmail.text);
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text('Recovery Email Has Sent'),
+          backgroundColor: Colors.greenAccent,
+          duration: Duration(seconds: 5),
+          )
+      );
+    }on FirebaseAuthException catch (e) {
+      scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(e.message ?? 'An error occured'),
+        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 5),
+        )
+      );
+    }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +88,7 @@ class ResetpasswordWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 TextFormField(
+                  controller: controllerEmail,
                   decoration: InputDecoration(
                     hintText: 'Email Address',
                     filled: true,
@@ -63,13 +102,24 @@ class ResetpasswordWidget extends StatelessWidget {
                       horizontal: 16,
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty){
+                      return 'Please enter your email address';
+                    }
+                    if (!value.contains('@') || value.contains('.')){
+                      return 'Please enter a valid email address';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      resetPassword();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PageStyle().buttonColor,
                       shape: RoundedRectangleBorder(
