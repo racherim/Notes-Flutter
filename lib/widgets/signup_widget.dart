@@ -62,6 +62,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
     try {
       await authService.value.createAccount(email: email, password: password);
+      await authService.value.updateUsername(username: username);
       scaffoldMessenger.showSnackBar(
         const SnackBar(
           content: Text('Account created successfully'),

@@ -50,6 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    
     void updateUsername() async {
       final scaffoldMessenger = ScaffoldMessenger.of(context);
       if (controllerNewUsername.text.isEmpty) {
