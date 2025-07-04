@@ -5,6 +5,7 @@ class TodoItem {
   final bool isCompleted;
   final String dateCreated;
   final bool isDeleted;
+  final DateTime? deletedAt;
 
   TodoItem({
     required this.id,
@@ -13,6 +14,7 @@ class TodoItem {
     required this.dateCreated,
     this.isCompleted = false,
     this.isDeleted = false,
+    this.deletedAt,
   });
 
   // Convert TodoItem to Map for Firestore
@@ -25,6 +27,7 @@ class TodoItem {
       'dateCreated': dateCreated,
       'isDeleted': isDeleted,
       'createdAt': DateTime.now().millisecondsSinceEpoch,
+      'deletedAt': deletedAt?.millisecondsSinceEpoch,
     };
   }
 
@@ -37,6 +40,9 @@ class TodoItem {
       isCompleted: map['isCompleted'] ?? false,
       dateCreated: map['dateCreated'] ?? '',
       isDeleted: map['isDeleted'] ?? false,
+      deletedAt: map['deletedAt'] != null 
+          ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt']) 
+          : null,
     );
   }
 
@@ -48,6 +54,7 @@ class TodoItem {
     bool? isCompleted,
     String? dateCreated,
     bool? isDeleted,
+    DateTime? deletedAt,
   }) {
     return TodoItem(
       id: id ?? this.id,
@@ -56,6 +63,7 @@ class TodoItem {
       isCompleted: isCompleted ?? this.isCompleted,
       dateCreated: dateCreated ?? this.dateCreated,
       isDeleted: isDeleted ?? this.isDeleted,
+      deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 }

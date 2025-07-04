@@ -33,14 +33,20 @@ class FirestoreService {
   Future<void> moveToTrash(String noteId) async {
     if (_notesCollection == null) throw Exception('User not authenticated');
     
-    await _notesCollection!.doc(noteId).update({'isDeleted': true});
+    await _notesCollection!.doc(noteId).update({
+      'isDeleted': true,
+      'deletedAt': DateTime.now().millisecondsSinceEpoch,
+    });
   }
 
   // Restore a note from trash
   Future<void> restoreFromTrash(String noteId) async {
     if (_notesCollection == null) throw Exception('User not authenticated');
     
-    await _notesCollection!.doc(noteId).update({'isDeleted': false});
+    await _notesCollection!.doc(noteId).update({
+      'isDeleted': false,
+      'deletedAt': null,
+    });
   }
 
   // Permanently delete a note
@@ -105,6 +111,72 @@ class FirestoreService {
     }
     
     await batch.commit();
+  }
+
+  // Check and delete notes that have been in trash for more than 14 days
+  Future<void> cleanupExpiredTrashNotes() async {
+    if (_notesCollection == null) throw Exception('User not authenticated');
+    
+    final fourteenDaysAgo = DateTime.now().subtract(const Duration(days: 14));
+    final fourteenDaysAgoTimestamp = fourteenDaysAgo.millisecondsSinceEpoch;
+    
+    // Get all trashed notes older than 14 days
+    final expiredNotes = await _notesCollection!
+        .where('isDeleted', isEqualTo: true)
+        .where('deletedAt', isLessThan: fourteenDaysAgoTimestamp)
+        .get();
+    
+    if (expiredNotes.docs.isEmpty) return;
+    
+    // Delete expired notes in batch
+    final batch = _firestore.batch();
+    for (final doc in expiredNotes.docs) {
+      batch.delete(doc.reference);
+    }
+    
+    await batch.commit();
+  }
+
+  // Get trashed notes with days remaining before auto-deletion
+  Stream<List<Map<String, dynamic>>> getTrashedNotesWithExpiryInfo() {
+    if (_notesCollection == null) {
+      return Stream.value([]);
+    }
+    
+    return _notesCollection!
+        .where('isDeleted', isEqualTo: true)
+        .snapshots()
+        .map((snapshot) {
+          final now = DateTime.now();
+          return snapshot.docs.map((doc) {
+            final data = doc.data();
+            final deletedAt = data['deletedAt'] != null 
+                ? DateTime.fromMillisecondsSinceEpoch(data['deletedAt'])
+                : null;
+            
+            int daysRemaining = 14;
+            if (deletedAt != null) {
+              final daysSinceDeleted = now.difference(deletedAt).inDays;
+              daysRemaining = 14 - daysSinceDeleted;
+            }
+            
+            return {
+              'note': TodoItem.fromMap(data),
+              'daysRemaining': daysRemaining,
+              'deletedAt': deletedAt,
+            };
+          }).toList();
+        });
+  }
+
+  // Auto-cleanup service that should be called periodically
+  Future<void> performAutoCleanup() async {
+    try {
+      await cleanupExpiredTrashNotes();
+    } catch (e) {
+      // Handle cleanup errors silently or log them
+      print('Auto-cleanup error: $e');
+    }
   }
 
   // Create user document on first login (optional)
