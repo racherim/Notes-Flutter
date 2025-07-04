@@ -12,13 +12,11 @@ class AddTodo extends StatefulWidget {
 }
 
 class _AddTodoState extends State<AddTodo> {
-  // Create separate controllers for title and content
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
   @override
   void dispose() {
-    // Clean up controllers when the widget is disposed
     _titleController.dispose();
     _contentController.dispose();
     super.dispose();
@@ -60,6 +58,7 @@ class _AddTodoState extends State<AddTodo> {
                     id: DateTime.now().millisecondsSinceEpoch.toString(),
                     title: _titleController.text,
                     text: _contentController.text,
+                    dateCreated: "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
                   ),
                 );
                 _titleController.clear();

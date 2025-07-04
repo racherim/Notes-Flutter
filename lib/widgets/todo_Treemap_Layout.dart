@@ -6,12 +6,14 @@ import 'package:flutter_todo_web/widgets/todo_Tiles.dart';
 class TodoTreemapLayout extends StatelessWidget {
   final List<TodoItem> items;
   final Function(TodoItem)? onDelete;
+  final Function(TodoItem)? onRestore;
   final bool isTrashView;
 
   const TodoTreemapLayout({
     super.key,
     required this.items,
     this.onDelete,
+    this.onRestore,
     this.isTrashView = false,
   });
 
@@ -40,9 +42,9 @@ class TodoTreemapLayout extends StatelessWidget {
         // Adjust tile aspect ratio based on screen size
         double childAspectRatio;
         if (screenWidth < 600) {
-          childAspectRatio = 1.5; // More rectangular on small screens
+          childAspectRatio = 1.5;
         } else {
-          childAspectRatio = 1.0; // Square on larger screens
+          childAspectRatio = 1.0;
         }
 
         return GridView.builder(
@@ -64,6 +66,7 @@ class TodoTreemapLayout extends StatelessWidget {
               item: item,
               colorValue: colorValue,
               onDelete: onDelete != null ? () => onDelete!(item) : null,
+              onRestore: onRestore != null ? () => onRestore!(item) : null,
               isInTrash: isTrashView,
             );
           },

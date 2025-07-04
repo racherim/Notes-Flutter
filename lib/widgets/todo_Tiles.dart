@@ -5,6 +5,7 @@ class TodoTile extends StatelessWidget {
   final TodoItem item;
   final int colorValue;
   final VoidCallback? onDelete;
+  final VoidCallback? onRestore;
   final bool isInTrash;
 
   const TodoTile({
@@ -12,6 +13,7 @@ class TodoTile extends StatelessWidget {
     required this.item,
     required this.colorValue,
     this.onDelete,
+    this.onRestore,
     this.isInTrash = false,
   });
 
@@ -65,12 +67,34 @@ class TodoTile extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: onDelete,
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.all(4.0),
                     child: Icon(
                       Icons.delete_outline,
                       size: 20,
                       color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+          // Restore button - visible when in trash
+          if (isInTrash && onRestore != null)
+            Positioned(
+              top: 4,
+              right: 4,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: onRestore,
+                  child: const Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Icon(
+                      Icons.restore,
+                      size: 20,
+                      color: Colors.green,
                     ),
                   ),
                 ),
