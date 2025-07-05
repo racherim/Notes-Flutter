@@ -1,16 +1,27 @@
-# flutter_todo_web
+Tag version: v1.0.0
+Release title: Notes App v1.0.0
+Description: 
+📱 Notes App - Flutter Application with Firebase Integration
 
-A new Flutter project.
+## 🚀 Features
+- Create and manage notes
+- Firebase authentication
+- Real-time synchronization
+- Trash functionality with 14-day auto-deletion
+- Responsive design for web and mobile
 
-## Getting Started
+## 📦 Downloads
+- **Android APK**: Download the APK file below
+- **Web App**: https://your-app-name.web.app
 
-This project is a starting point for a Flutter application.
+## 🔧 What's New
+- Initial release
+- Firebase Firestore integration
+- Auto-cleanup service for trashed notes
+- User authentication system
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📋 Installation
+1. Download the APK file
+2. Enable "Unknown Sources" in Android settings
+3. Install the APK
+4. Or visit the web app link above
