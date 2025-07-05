@@ -8,7 +8,7 @@
 - Responsive design for web and mobile
 
 ## 📦 Downloads
-- **Android APK**: [Download APK](https://github.com/racherim/Notes-Flutter/releases/tag/APK)
+- **Android APK**: [Download APK](https://github.com/racherim/Notes-Flutter/releases/tag/v1.0)
 - **Web App**: [Launch Web App](https://notes-flutter.netlify.app/#/home)
 
 ## 🔧 What's New
