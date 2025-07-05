@@ -1,11 +1,11 @@
 {
-    "name": "flutter_todo_web",
-    "short_name": "flutter_todo_web",
+    "name": "Notes App",
+    "short_name": "Notes App",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#hexcode",
     "theme_color": "#hexcode",
-    "description": "A new Flutter project.",
+    "description": "A simple and elegant notes app with cloud sync.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
