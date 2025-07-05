@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
-import 'package:flutter_todo_web/widgets/todo_Tiles.dart';
+import 'package:flutter_todo_web/widgets/todo_tiles_widget.dart';
 
 class TodoTreemapLayout extends StatelessWidget {
   final List<TodoItem> items;
@@ -62,7 +62,7 @@ class TodoTreemapLayout extends StatelessWidget {
                 100 +
                 (155 * (item.text.length / sortedItems[0].text.length)).toInt();
 
-            return TodoTile(
+            return TodoTilesWidgets(
               item: item,
               colorValue: colorValue,
               onDelete: onDelete != null ? () => onDelete!(item) : null,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter_todo_web/services/firestore_service.dart';
 
 class AutoCleanupService {
@@ -28,7 +29,7 @@ class AutoCleanupService {
     try {
       await _firestoreService.performAutoCleanup();
     } catch (e) {
-      print('Auto-cleanup service error: $e');
+     log('Auto-cleanup service error: $e');
     }
   }
   

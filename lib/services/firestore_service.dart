@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
@@ -174,8 +175,7 @@ class FirestoreService {
     try {
       await cleanupExpiredTrashNotes();
     } catch (e) {
-      // Handle cleanup errors silently or log them
-      print('Auto-cleanup error: $e');
+      log('Auto-cleanup error: $e');
     }
   }
 

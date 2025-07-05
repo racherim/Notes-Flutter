@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/utils/pagestyle.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
 import 'package:flutter_todo_web/widgets/custom_AppBar.dart';
-import 'package:flutter_todo_web/widgets/todo_Treemap_Layout.dart';
+import 'package:flutter_todo_web/widgets/todo_treemap_layout.dart';
 import 'package:flutter_todo_web/widgets/add_ToDo.dart';
 import 'package:flutter_todo_web/services/firestore_service.dart';
 import 'package:flutter_todo_web/services/auto_cleanup_service.dart';
@@ -338,7 +338,6 @@ class _HomeState extends State<Home> {
   }
 }
 
-// Create the TrashTile widget as a private class
 class _TrashTile extends StatelessWidget {
   final TodoItem item;
   final int colorValue;

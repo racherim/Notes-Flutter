@@ -91,6 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     void deleteAccount() async {
       final scaffoldMessenger = ScaffoldMessenger.of(context);
+      final navigator = Navigator.of(context);
       try {
         await authService.value.deleteAccount(
           email: controllerEmail.text,
@@ -105,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
         );
         Future.delayed(const Duration(milliseconds: 300), () {
           if (mounted) {
-            Navigator.of(context).pushReplacementNamed(AppRouter.login);
+            navigator.pushReplacementNamed(AppRouter.login);
           }
         });
       } on FirebaseAuthException catch (e) {
@@ -157,6 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     void logout() {
       final scaffoldMessenger = ScaffoldMessenger.of(context);
+      final navigator = Navigator.of(context);
       try {
         authService.value.signOut();
         scaffoldMessenger.showSnackBar(
@@ -168,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
         );
         Future.delayed(const Duration(milliseconds: 300), () {
           if (mounted) {
-            Navigator.of(context).pushReplacementNamed(AppRouter.login);
+            navigator.pushReplacementNamed(AppRouter.login);
           }
         });
       } on FirebaseAuthException catch (e) {

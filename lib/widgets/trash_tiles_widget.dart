@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
 
-class TrashTile extends StatelessWidget {
+class TrashTilesWidget extends StatelessWidget {
   final TodoItem item;
   final int colorValue;
   final VoidCallback? onRestore;
   final VoidCallback? onPermanentDelete;
   final int daysRemaining;
 
-  const TrashTile({
+  const TrashTilesWidget({
     super.key,
     required this.item,
     required this.colorValue,

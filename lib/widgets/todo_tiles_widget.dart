@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_web/utils/todo_Items.dart';
 
-class TodoTile extends StatelessWidget {
+class TodoTilesWidgets extends StatelessWidget {
   final TodoItem item;
   final int colorValue;
   final VoidCallback? onDelete;
   final VoidCallback? onRestore;
   final bool isInTrash;
 
-  const TodoTile({
+  const TodoTilesWidgets({
     super.key,
     required this.item,
     required this.colorValue,
